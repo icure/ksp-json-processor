@@ -1,0 +1,28 @@
+plugins {
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.kotlin.plugin.serialization)
+}
+
+group = "com.icure"
+version = "1.0.0"
+
+kotlin {
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+    }
+
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.ksp.symbol.processing.api)
+                implementation(libs.kotlin.serialization)
+                implementation(libs.kotlin.reflection)
+                implementation(libs.icure.charix)
+            }
+            kotlin.srcDir("src/main/kotlin")
+            resources.srcDir("src/main/resources")
+        }
+    }
+}

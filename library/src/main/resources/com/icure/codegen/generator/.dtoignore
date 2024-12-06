@@ -1,0 +1,13 @@
+org.taktik.icure.services.external.rest.v2.dto.embed.form.template.FieldType
+org.taktik.icure.services.external.rest.v2.dto.specializations.AnyPrimitive
+org.taktik.icure.services.external.rest.v2.dto.specializations.AesExchangeKeyEncryptionKeypairIdentifierDto
+org.taktik.icure.services.external.rest.v2.dto.specializations.Base64StringDto
+org.taktik.icure.services.external.rest.v2.dto.specializations.HexStringDto
+org.taktik.icure.services.external.rest.v2.dto.specializations.Sha256HexStringDto
+org.taktik.icure.services.external.rest.v2.dto.specializations.AccessControlSecretDto
+org.taktik.icure.services.external.rest.v2.dto.specializations.AccessControlKeyHexStringDto
+org.taktik.icure.services.external.rest.v2.dto.specializations.SecureDelegationKeyStringDto
+org.taktik.icure.services.external.rest.v2.dto.specializations.SpkiHexStringDto
+org.taktik.icure.services.external.rest.v2.dto.specializations.KeypairFingerprintV1StringDto
+org.taktik.icure.services.external.rest.v2.dto.specializations.KeypairFingerprintV2StringDto
+org.taktik.icure.services.external.rest.v2.dto.AggregatedMetricsDto
