@@ -5,7 +5,6 @@ import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSVisitorVoid
-import com.icure.codegen.generator.DtoGeneratorsOptions.dtoIgnore
 import com.icure.codegen.ir.declaration.toIRDeclaration
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -24,6 +23,8 @@ class KspJsonGenerator(
     codeGenerator: CodeGenerator,
     logger: KSPLogger
 ) : Generator(codeGenerator, logger) {
+
+    private val dtoIgnore = this::class.java.getResource(".dtoignore")?.readText()?.split("\n").orEmpty().toSet()
 
     override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
         if (!dtoIgnore.contains(classDeclaration.qualifiedName?.asString())) {
