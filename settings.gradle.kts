@@ -1,15 +1,30 @@
 import java.util.Properties
 
-val localPropertiesFile = file("local.properties")
-val properties = Properties()
+gradle.beforeProject {
+    val propsFile = file("local.properties")
+    val localProps = Properties().apply {
+        if (propsFile.exists()) {
+            propsFile.inputStream().use { load(it) }
+        }
+    }
 
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.inputStream().use { properties.load(it) }
+    fun loadProp(key: String): String? {
+        return System.getenv(key) ?: localProps.getProperty(key)
+    }
+
+    val githubUser = loadProp("GITHUB_USERNAME")
+    val githubPass = loadProp("GITHUB_PASSWORD")
+
+    if (githubUser != null) {
+        this.extensions.extraProperties.set("githubUsername", githubUser)
+    }
+    if (githubPass != null) {
+        this.extensions.extraProperties.set("githubPassword", githubPass)
+    }
 }
 
-// Now you can read the properties
-val githubUsername: String = properties.getProperty("githubUsername") ?: throw IllegalArgumentException("githubUsername is not set")
-val githubPassword: String = properties.getProperty("githubPassword") ?: throw IllegalArgumentException("githubPassword is not set")
+val githubUsername by extra("githubUsername")
+val githubPassword by extra("githubPassword")
 
 pluginManagement {
     repositories {
