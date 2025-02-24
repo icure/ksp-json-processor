@@ -1,6 +1,6 @@
 [versions]
-kotlin = "2.0.21"
-ksp = "2.0.21-1.0.28"
+kotlin = "2.1.20-RC"
+ksp = "2.1.20-RC-1.0.30"
 kotix-serialization = "1.7.3"
 
 [libraries]
