@@ -23,7 +23,7 @@ class KspJsonGenerator(
     codeGenerator: CodeGenerator,
     logger: KSPLogger
 ) : Generator(codeGenerator, logger) {
-
+    private val json = Json { prettyPrint = true }
     private val dtoIgnore = this::class.java.getResource(".dtoignore")?.readText()?.split("\n").orEmpty().toSet()
 
     override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
@@ -39,7 +39,7 @@ class KspJsonGenerator(
                 fileName = classDeclaration.simpleName.asString(),
                 extensionName = "json"
             ).use { outputStream ->
-                Json.encodeToStream(value, outputStream)
+                json.encodeToStream(value, outputStream)
             }
         }
     }
