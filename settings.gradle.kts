@@ -12,8 +12,8 @@ gradle.beforeProject {
         return System.getenv(key) ?: localProps.getProperty(key)
     }
 
-    val githubUser = loadProp("GITHUB_USERNAME")
-    val githubPass = loadProp("GITHUB_PASSWORD")
+    val githubUser = loadProp("githubUsername")
+    val githubPass = loadProp("githubPassword")
 
     if (githubUser != null) {
         this.extensions.extraProperties.set("githubUsername", githubUser)
