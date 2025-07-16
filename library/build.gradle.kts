@@ -7,12 +7,11 @@ group = "com.icure"
 version = "1.0.0"
 
 kotlin {
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
-        }
+    jvm()
+    jvmToolchain(21)
+    compilerOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
     }
-
     sourceSets {
         val jvmMain by getting {
             dependencies {
