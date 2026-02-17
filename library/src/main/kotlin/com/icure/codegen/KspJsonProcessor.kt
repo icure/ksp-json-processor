@@ -42,7 +42,10 @@ class KspJsonProcessor(
 
 		val failedDtoGenerations = resolver
 			.getAllFiles()
-			.filter { it.packageName.asString().contains(KRAKEN_DTO_BASE_PATH) }
+			.filter {
+				it.packageName.asString().contains(KRAKEN_DTO_BASE_PATH)
+					|| it.packageName.asString().startsWith("org.taktik.icure.entities")
+			}
 			.flatMap { it.declarations }
 			.filterNot { it in successfullyProcessedKSDeclaration }
 			.toList()
