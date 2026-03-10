@@ -14,13 +14,6 @@ fun loadProp(key: String): String? {
 val githubUsername = loadProp("githubUsername")
 val githubPassword = loadProp("githubPassword")
 
-if (githubUsername != null) {
-    this.extensions.extraProperties.set("githubUsername", githubUsername)
-}
-if (githubPassword != null) {
-    this.extensions.extraProperties.set("githubPassword", githubPassword)
-}
-
 pluginManagement {
     repositories {
         google()
