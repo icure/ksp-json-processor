@@ -45,7 +45,7 @@ class KspJsonProcessor(
 			.filter {
 				it.packageName.asString().contains(KRAKEN_DTO_BASE_PATH)
 					|| it.packageName.asString().startsWith("org.taktik.icure.entities")
-					|| it.packageName.asString().startsWith("org.taktik.icure.customentities.config")
+					|| it.packageName.asString().startsWith("com.icure.customentities.config")
 			}
 			.flatMap { it.declarations }
 			.filterNot { it in successfullyProcessedKSDeclaration }
