@@ -12,7 +12,9 @@ import com.icure.codegen.utils.KRAKEN_DTO_BASE_PATH
 
 class KspJsonProcessor(
 	private val codeGenerator: CodeGenerator,
-	private val logger: KSPLogger
+	private val logger: KSPLogger,
+	/** Packages given through [KspJsonProcessorProvider.PACKAGES_OPTION]. */
+	private val packages: List<String> = emptyList(),
 ): SymbolProcessor {
 	private val successfullyProcessedKSDeclaration: MutableSet<KSDeclaration> = mutableSetOf()
 
@@ -46,6 +48,7 @@ class KspJsonProcessor(
 				it.packageName.asString().contains(KRAKEN_DTO_BASE_PATH)
 					|| it.packageName.asString().startsWith("org.taktik.icure.entities")
 					|| it.packageName.asString().startsWith("com.icure.cardinal.customentities.config")
+					|| packages.any { p -> it.packageName.asString().let { name -> name == p || name.startsWith("$p.") } }
 			}
 			.flatMap { it.declarations }
 			.filterNot { it in successfullyProcessedKSDeclaration }
