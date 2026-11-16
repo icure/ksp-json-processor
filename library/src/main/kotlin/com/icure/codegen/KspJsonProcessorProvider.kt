@@ -12,11 +12,8 @@ class KspJsonProcessorProvider : SymbolProcessorProvider {
 		KspJsonProcessor(
 			environment.codeGenerator,
 			environment.logger,
-			environment.options[PACKAGES_OPTION]
-				?.split(",")
-				?.map { it.trim() }
-				?.filter { it.isNotEmpty() }
-				.orEmpty()
+			environment.packagesOption(PACKAGES_OPTION),
+			environment.packagesOption(CONTROLLER_PACKAGES_OPTION),
 		)
 
 	companion object {
@@ -25,5 +22,14 @@ class KspJsonProcessorProvider : SymbolProcessorProvider {
 		 * built-in Kraken and Cardinal packages. For example `ksp { arg("ksp-json.packages", "com.example.dto") }`.
 		 */
 		const val PACKAGES_OPTION = "ksp-json.packages"
+
+		/**
+		 * KSP option: comma-separated packages whose `@RestController`s are written as json, subpackages included, on top
+		 * of the Kraken ones (`.v2.` packages). For example `ksp { arg("ksp-json.controllerPackages", "com.example.controllers") }`.
+		 */
+		const val CONTROLLER_PACKAGES_OPTION = "ksp-json.controllerPackages"
+
+		private fun SymbolProcessorEnvironment.packagesOption(name: String): List<String> =
+			options[name]?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }.orEmpty()
 	}
 }

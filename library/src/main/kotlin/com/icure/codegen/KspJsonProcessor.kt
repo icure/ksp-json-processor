@@ -15,6 +15,8 @@ class KspJsonProcessor(
 	private val logger: KSPLogger,
 	/** Packages given through [KspJsonProcessorProvider.PACKAGES_OPTION]. */
 	private val packages: List<String> = emptyList(),
+	/** Packages given through [KspJsonProcessorProvider.CONTROLLER_PACKAGES_OPTION]. */
+	private val controllerPackages: List<String> = emptyList(),
 ): SymbolProcessor {
 	private val successfullyProcessedKSDeclaration: MutableSet<KSDeclaration> = mutableSetOf()
 
@@ -30,7 +32,7 @@ class KspJsonProcessor(
 		val failedRawSdkGenerations = resolver
 			.getSymbolsWithAnnotation("org.springframework.web.bind.annotation.RestController")
 			.filterIsInstance<KSClassDeclaration>()
-			.filter { it.packageName.asString().contains(".v2.") }
+			.filter { it.packageName.asString().let { name -> name.contains(".v2.") || name.isIn(controllerPackages) } }
 			.mapNotNull {
 				try {
 					logger.warn(it.qualifiedName?.asString() ?: it.simpleName.asString())
@@ -48,7 +50,7 @@ class KspJsonProcessor(
 				it.packageName.asString().contains(KRAKEN_DTO_BASE_PATH)
 					|| it.packageName.asString().startsWith("org.taktik.icure.entities")
 					|| it.packageName.asString().startsWith("com.icure.cardinal.customentities.config")
-					|| packages.any { p -> it.packageName.asString().let { name -> name == p || name.startsWith("$p.") } }
+					|| it.packageName.asString().isIn(packages)
 			}
 			.flatMap { it.declarations }
 			.filterNot { it in successfullyProcessedKSDeclaration }
@@ -100,4 +102,7 @@ class KspJsonProcessor(
 
 		return failedRawSdkGenerations + failedDtoGenerations + failedMpApiGeneration
 	}
+
+	/** Whether this package is one of [packages] or one of their subpackages. */
+	private fun String.isIn(packages: List<String>) = packages.any { p -> this == p || startsWith("$p.") }
 }
