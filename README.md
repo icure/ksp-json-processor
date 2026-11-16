@@ -24,4 +24,13 @@ includeBuild("ksp-json-processor") {
 }
 ```
 
+REST controllers are visited only in Kraken's `.v2.` packages; the `ksp-json.controllerPackages` option adds packages of
+controllers the same way:
+
+```kotlin
+ksp {
+    arg("ksp-json.controllerPackages", "com.icure.ddocs.controllers")
+}
+```
+
 The json lands in `build/generated/ksp/<target>/<sourceSet>/resources`, one file per top-level declaration.
